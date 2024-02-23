@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CardList from "@components/cardList";
+
 const Home = () => {
   const { page, setPage } = useState(1);
   /**
@@ -17,6 +18,23 @@ const Home = () => {
   };
   return (
     <div>
+      <ul className="flex gap-10 mb-10">
+        <li>
+          <button type="button">Smartphones</button>
+        </li>
+        <li>
+          <button type="button">Laptops</button>
+        </li>
+        <li>
+          <button type="button">Automative</button>
+        </li>
+        <li>
+          <button type="button">Motorcycle</button>
+        </li>
+        <li>
+          <button type="button">Lighting</button>
+        </li>
+      </ul>
       <CardList />
       <div className="flex justify-between">
         <button type="button" onClick={handlePrevClick}>
