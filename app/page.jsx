@@ -19,6 +19,8 @@ const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [itemsToBuy, setItemsToBuy] = useState([]);
   const [modalItemsRender, setModalItemsRender] = useState([]);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [isBoughtModalOpen, setIsBoughtModalOpen] = useState(false);
 
   const openModal = async () => {
     setIsOpen(true);
@@ -42,6 +44,16 @@ const Home = () => {
   };
 
   const closeModal = () => setIsOpen(false);
+
+  const openOrderModal = async () => {
+    setIsOrderModalOpen(true);
+  };
+  const closeOrderModal = () => setIsOrderModalOpen(false);
+
+  const openBoughtModal = async () => {
+    setIsBoughtModalOpen(true);
+  };
+  const closeBoughtModal = () => setIsBoughtModalOpen(false);
 
   const fetchItems = async () => {
     const response = await fetch(searchItems);
@@ -109,9 +121,18 @@ const Home = () => {
     const newItems = [...itemsToBuy, itemId];
     setItemsToBuy(newItems);
   };
+  const handleDeleteItem = async (itemId) => {
+    const newArray = modalItemsRender.filter((item) => item.id !== itemId);
+    console.log(newArray);
+    setModalItemsRender(newArray);
+    const newItemsToBuy = itemsToBuy.filter((item) => item !== itemId);
+    console.log("💖 ~ handleDeleteItem ~ newItemsToBuy:", newItemsToBuy);
+    setItemsToBuy(newItemsToBuy);
+  };
+  //   useEffect(() => {}, [modalItemsRender]);
   return (
-    <div>
-      <div className="flex justify-center gap-20 mb-10 mt-10">
+    <div className="p-20">
+      <div className="flex justify-center gap-20 mb-10 ">
         <ul className="flex gap-10  text-center">
           {btnsArray.map((btn, idx) => (
             <li key={idx}>
@@ -142,30 +163,59 @@ const Home = () => {
                   <p>{item.title}</p>
                   <div className="flex items-center gap-5">
                     <p>{item.price}</p>
-                    <img
-                      src="/images/delete.svg"
-                      alt=""
-                      width={30}
-                      height={30}
-                    />
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteItem(item.id)}
+                    >
+                      <img
+                        src="/images/delete.svg"
+                        alt=""
+                        width={30}
+                        height={30}
+                      />
+                    </button>
                   </div>
                 </div>
               ))}
               <div className="flex self-end items-center justify-end gap-8 bg-green-100 border border-green-700 px-6 py-4 w-48 font-bold text-lg">
                 {modalItemsRender.reduce((acc, item) => acc + item.price, 0)}
                 <button
+                  onClick={openOrderModal}
                   type="button"
                   className="text-white bg-green-500 px-5 py-3 rounded"
                 >
                   Buy
                 </button>
+                <Modal isOpen={isOrderModalOpen} onClose={closeOrderModal}>
+                  <form className="flex flex-col gap-5">
+                    <input type="name" placeholder="Your first name" />
+                    <input type="name" placeholder="Your second name" />
+                    <input type="number" placeholder="Your phone number" />
+                    <button
+                      onClick={openBoughtModal}
+                      type="button"
+                      className="text-white bg-green-500 px-5 py-3 rounded"
+                    >
+                      Buy
+                    </button>
+                    <Modal
+                      isOpen={isBoughtModalOpen}
+                      onClose={closeBoughtModal}
+                    >
+                      <h1 className="h-[300px] flex items-center">
+                        Thank you for your purchase, our manager will contact
+                        you soon! 😊
+                      </h1>
+                    </Modal>
+                  </form>
+                </Modal>
               </div>
             </div>
           </Modal>
         </div>
       </div>
       <CardList items={items} buy={handleBuyClick} />
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         {searchItems === "https://dummyjson.com/products?limit=20" && (
           <>
             <button
@@ -184,7 +234,7 @@ const Home = () => {
             </button>
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -13,7 +13,7 @@ const CardItem = ({ item, chooseItem }) => {
           height="300"
         />
       </div>
-      <div className="px-6 py-4">
+      <div className="px-6 py-4 h-[200px]">
         <div className="font-bold text-xl mb-2">{item.title}</div>
         <p className="text-gray-700 text-base mb-2">Brand: {item.brand}</p>
         <p className="text-gray-700 text-base line-clamp-3 mb-2">
@@ -26,6 +26,7 @@ const CardItem = ({ item, chooseItem }) => {
           Stock: {item.stock}
         </p>
       </div>
+
       <button
         type="button"
         className="w-full bg-green-400 text-white py-2 rounded-md shadow-md hover:bg-green-500"
