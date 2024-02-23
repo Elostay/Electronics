@@ -1,26 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import CardItem from "./cardItem";
 
-const CardList = () => {
-  const [items, setItems] = useState([]);
-
-  const fetchItems = async () => {
-    const response = await fetch("https://dummyjson.com/products?limit=20");
-
-    const data = await response.json();
-    setItems(data.products);
-    console.log(data);
-  };
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
-
+const CardList = ({ items, buy }) => {
   return (
-    <div>
-      {items.map((item) => (
-        <img key={item.id} src={item.thumbnail} width="300" height="300" />
+    <div className="flex gap-3 flex-wrap justify-center">
+      {items.map((item, idx) => (
+        <CardItem key={idx} item={item} chooseItem={buy} />
       ))}
     </div>
   );
